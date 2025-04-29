@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction | Health Risk Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --danger: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Open Sans', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(58, 86, 212, 0.9)), 
+                        url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, #f5f7fa);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--white);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background: var(--light);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Prediction Form */
+        .prediction-section {
+            background: var(--white);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .prediction-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid #e1e5ee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background-color: var(--white);
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 15px;
+            font-size: 1.1rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Result Section */
+        .result-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .risk-level {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .low-risk {
+            color: #28a745;
+        }
+
+        .medium-risk {
+            color: #ffc107;
+        }
+
+        .high-risk {
+            color: #dc3545;
+        }
+
+        .recommendation {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: #f8f9fa;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Contributors Section */
+        .contributors-section {
+            text-align: center;
+        }
+
+        .contributors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contributor-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contributor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .contributor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .contributor-card:hover .contributor-img {
+            transform: scale(1.05);
+        }
+
+        .contributor-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .contributor-role {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(58, 86, 212, 0.9)), 
+                        url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: var(--white);
+            position: relative;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .contact-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-section .section-title h2,
+        .contact-section .section-title p {
+            color: var(--white);
+        }
+
+        .contact-section .section-title h2::after {
+            background: var(--white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .contact-info {
+            text-align: left;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+
+        .contact-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--white);
+        }
+
+        .contact-details p, 
+        .contact-details a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+        }
+
+        .contact-details a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .contact-form .form-control {
+            background: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        .animate-pop-in {
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+            
+            .prediction-form,
+            .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .feature-card,
+            .contributor-card {
+                padding: 30px 20px;
+            }
+        }
+    
+    </style>
+    
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo animate__animated animate__fadeInLeft">
+                    <i class="fas fa-heartbeat"></i> DiabetesPredict
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#predict">Prediction</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content animate__animated animate__fadeIn">
+            <h1>Take Control of Your Health</h1>
+            <p>Our advanced machine learning model helps you assess your diabetes risk based on key health indicators. Get personalized results in seconds.</p>
+            <a href="#predict" class="btn btn-primary animate__animated animate__pulse animate__infinite animate__slower">Check Your Risk Now</a>
+        </div>
+    </section>
+
+    <!-- Prediction Section -->
+    <section class="prediction-section" id="predict">
+        <div class="container">
+            <div class="section-title animate__animated animate__fadeIn">
+                <h2>Diabetes Risk Assessment</h2>
+                <p>Fill out the form below to get your personalized diabetes risk prediction. All information is kept confidential.</p>
+            </div>
+            
+            <form class="prediction-form animate__animated animate__fadeInUp" action="/predict" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender" class="form-control" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" class="form-control" placeholder="Enter Age" required min="0" max="80">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hypertension">Hypertension</label>
+                        <select name="hypertension" id="hypertension" class="form-control" required>
+                            <option value="" disabled selected>Do you have Hypertension?</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heart_disease">Heart Disease</label>
+                        <select name="heart_disease" id="heart_disease" class="form-control" required>
+                            <option value="" disabled selected>Do you have Heart Disease?</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smoking_history">Smoking History</label>
+                        <select name="smoking_history" id="smoking_history" class="form-control" required>
+                            <option value="" disabled selected>Select Smoking History</option>
+                            <option value="never">Never</option>
+                            <option value="No Info">No Info</option>
+                            <option value="current">Current</option>
+                            <option value="former">Former</option>
+                            <option value="ever">Ever</option>
+                            <option value="not current">Not Current</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bmi">BMI (Body Mass Index)</label>
+                        <input type="number" step="any" name="bmi" id="bmi" class="form-control" placeholder="Enter BMI" required min="14.71" max="38.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="HbA1c_level">HbA1c Level (%)</label>
+                        <input type="number" step="any" name="HbA1c_level" id="HbA1c_level" class="form-control" placeholder="Enter HbA1c Level" required min="3.5" max="8.2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blood_glucose_level">Blood Glucose Level (mg/dL)</label>
+                        <input type="number" name="blood_glucose_level" id="blood_glucose_level" class="form-control" placeholder="Enter Blood Glucose Level" required min="80" max="240">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="predict-btn" value="Predict">
+                    <i class="fas fa-calculator" ></i> Calculate My Risk
+                </button>
+                <h2 style="
+                margin: 16px;
+                padding: 21px;
+            ">Prediction :  </h2>
+           <div class="result" style="
+            margin: 23px;
+            padding: 9px;
+        
+        "><h3 style="color: #4361ee;">{{result}}</h3></div>   
+            </form>
+
+            <div class="result-container" id="result-container">
+                <h3 class="result-title">Your Diabetes Risk Assessment:</h3>
+                <div class="risk-level" id="risk-level">Low Risk</div>
+                <p class="recommendation" id="recommendation">
+                    Based on your inputs, you have a low risk of developing diabetes. 
+                    Continue maintaining a healthy lifestyle with balanced nutrition and regular physical activity.
+                </p>
+                <a href="#features" class="btn" style="margin-top: 20px;">
+                    <i class="fas fa-heart"></i> Learn About Prevention
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-title animate__animated animate__fadeIn">
+                <h2>Why Use Our Tool?</h2>
+                <p>Our diabetes prediction tool offers several advantages to help you understand and manage your health risks.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ML Model</h3>
+                    <p>Our machine learning algorithm has been trained on thousands of cases to provide accurate risk assessments based on your unique health profile.</p>
+                </div>
+                
+                <div class="feature-card animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Privacy Focused</h3>
+                    <p>Your health data is processed securely and never stored permanently. We prioritize your privacy and confidentiality.</p>
+                </div>
+                
+                <div class="feature-card animate__animated animate__fadeInUp animate__delay-3s">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-medical"></i>
+                    </div>
+                    <h3>Project Info</h3>
+                    <p>We used Random Forest for model prediction with the accuracy 97% and for simplicity we used pipline and also done Scaling the data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contributors-section" id="team">
+        <div class="container">
+            <div class="section-title animate__animated animate__fadeIn">
+                <h2>Our Expert Team</h2>
+                <p>Meet the professionals behind this innovative diabetes prediction tool.</p>
+            </div>
+            
+            <div class="contributors-grid">
+                <div class="contributor-card animate__animated animate__fadeInLeft">
+
+                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQEGPlXUWMG3IQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1679233940286?e=1751500800&v=beta&t=QVAScCq4ZlwDoVk9id3bsbLQ1SzrDAD5JqkI6mo24Oo" alt="Ashish singh" class="contributor-img">
+                    <h3>Ashish singh</h3>
+                    <p class="contributor-role">ML Student</p>
+                    <p>A passionate Machine Learning student who developed a predictive model for early diabetes detection using health data. Skilled in data analysis, model building, and real-world healthcare applications.</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/ashish-singh-768060253/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/Ashish094562" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="mailto:ashishsingh094562@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contributor-card animate__animated animate__fadeInUp">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQG_Nx3YKGQUjw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1730966399152?e=1751500800&v=beta&t=pal0AhRo1nthTXxr1bb40SeoiB-pDibYWl5dmbSslFw" alt="Nikhil Kumar" class="contributor-img">
+                    <h3>Nikhil kumar</h3>
+                    <p class="contributor-role">Frontend Student</p>
+                    <p>A creative Frontend Developer skilled in building responsive, user-friendly websites and web applications. Experienced with HTML, CSS, JavaScript, and modern frameworks like React.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/Nikhill72" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="mailto:nikhilkr978@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+                        <a href="https://www.linkedin.com/in/nikhil-kumar-242761266" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+ 
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-section" id="contact">
+        <div class="container">
+                    
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DiabetesPredict</h3>
+                    <p>Our mission is to empower individuals with knowledge about their diabetes risk through advanced predictive technology.</p>
+                    <div class="social-links" style="justify-content: flex-start; margin-top: 20px;">
+                  </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#predict">Risk Assessment</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        
+                    </ul>
+                </div>
+            
+           
+        </div>
+    </footer>
+    <script>
+        
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
+
+mobileMenuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+});
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+});
+
+
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+const predictionForm = document.querySelector('.prediction-form');
+const resultContainer = document.getElementById('result-container');
+
+    </script>
+</body>
+</html>
