@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request, jsonify
 import pickle
 from flask_cors import CORS
 import pandas as pd
@@ -31,10 +31,10 @@ def predict():
     })
     result = model.predict(input_data)[0]
     if result == 0:
-        result = 'Not Diabetic. Stay Healthy.'
+        result = 'Low risk'
     else:
-        result = 'Diabetic. Take Control of Your Health. Seek Professional Advice.'
+        result = 'High risk'
     
-    return render_template('index.html', **locals())
+    return jsonify({"result": result})
 if __name__=="__main__":
     app.run(debug=True)
